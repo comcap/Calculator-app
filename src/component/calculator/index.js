@@ -79,8 +79,8 @@ const Calculator = (props) => {
     const value = HandleClick[type]
 
     if (
-      getLastString(tempValue) === HandleClick.Multiple &&  ||
-      getLastString(tempValue) === HandleClick.Minus &&  ||
+      getLastString(tempValue) === HandleClick.Multiple && 
+      getLastString(tempValue) === HandleClick.Minus &&  
       getLastString(tempValue) === HandleClick.Plus && 
     ) {
       return
