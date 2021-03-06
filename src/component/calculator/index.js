@@ -41,9 +41,9 @@ const Calculator = (props) => {
   const HandleClick = {
     Clean: '',
     Sum: '',
-    Multiple: ' * ',
-    Minus: ' - ',
-    Plus: ' + ',
+    Multiple: '*',
+    Minus: '-',
+    Plus: '+',
     Seven: '7',
     Eight: '8',
     Nine: '9',
@@ -58,17 +58,33 @@ const Calculator = (props) => {
   }
 
   const transformsMultiply = (val) => {
-    if (val === ' * ') {
+    if (val === HandleClick.Multiple) {
       return ' X '
+    } else if (val === HandleClick.Minus) {
+      return ' - '
+    } else if (val === HandleClick.Plus) {
+      return ' + '
     } else {
       return val
     }
+  }
+
+  const getLastString = (val) => {
+    return val.substr(val.length - 1)
   }
 
   const onClick = (type) => {
     let tempValue = currentValue
     let tempDisplayValue = displayValue
     const value = HandleClick[type]
+
+    if (
+      getLastString(tempValue) === HandleClick.Multiple &&  ||
+      getLastString(tempValue) === HandleClick.Minus &&  ||
+      getLastString(tempValue) === HandleClick.Plus && 
+    ) {
+      return
+    }
 
     tempValue = tempValue + value
     tempDisplayValue = tempDisplayValue + transformsMultiply(value)
@@ -82,7 +98,7 @@ const Calculator = (props) => {
       <h4>{title}</h4>
       <CalculatorLayout>
         <ResultLayout>
-          <h2>{currentValue ? currentValue : 0}</h2>
+          <h2>1234</h2>
           <hr />
           <h3>{displayValue ? displayValue : 0}</h3>
         </ResultLayout>
