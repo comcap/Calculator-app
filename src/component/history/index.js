@@ -6,6 +6,29 @@ const Container = styled.div`
   height: 600px;
   position: relative;
 
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    input {
+      width: 50%;
+    }
+    select {
+      width: 25%;
+    }
+
+    input,
+    select {
+      border: none;
+      height: 40px;
+      font-size: 18px;
+      background-color: #fff;
+      padding: 0px 20px;
+      border-radius: 14px;
+      box-shadow: 0px 4px 7px 0px #00000052;
+    }
+  }
+
   h4 {
     text-align: left;
     font-size: 20px;
@@ -66,10 +89,24 @@ const renderDisplay = displayValue => {
   })
 }
 
-const History = ({ title, historys, setHistorys }) => {
+const History = props => {
+  const { title, historys, setHistorys, onSearch, onFilter } = props
   return (
     <Container>
-      <h3>{title}</h3>
+      <div className='header'>
+        <h3>{title}</h3>
+
+        <input
+          type='text'
+          placeholder='Search by result, date'
+          onChange={onSearch}
+        />
+        <select onChange={onFilter}>
+          <option value='all'>All</option>
+          <option value='Calculator A'>A</option>
+          <option value='Calculator B'>B</option>
+        </select>
+      </div>
       <CalculatorLayout>
         <div
           onClick={() => {
@@ -84,16 +121,16 @@ const History = ({ title, historys, setHistorys }) => {
           historys
             .slice(0)
             .reverse()
-            .map(history => {
+            .map((history, index) => {
               return (
-                <HistoryLayout>
+                <HistoryLayout key={index}>
                   <div className='title'>
                     <h3>{history.title}</h3>
                     <span>{history.timestamp}</span>
                   </div>
-                  <h2>{history.data.value}</h2>
+                  <h2>{history.value}</h2>
                   <hr />
-                  <h3>{renderDisplay(history.data.displayValue)}</h3>
+                  <h3>{renderDisplay(history.displayValue)}</h3>
                 </HistoryLayout>
               )
             })}
