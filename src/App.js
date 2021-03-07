@@ -7,21 +7,18 @@ import Calculator from 'component/calculator'
 import History from 'component/history'
 
 function App() {
+  const [initalValue, setInitalValue] = useState([])
   const [historys, setHistorys] = useState([])
   const [calculator, setCalculator] = useState([
     {
       title: 'Calculator A',
-      data: {
-        value: 0,
-        displayValue: 0,
-      },
+      value: '0',
+      displayValue: '0',
     },
     {
       title: 'Calculator B',
-      data: {
-        value: 0,
-        displayValue: 0,
-      },
+      value: '0',
+      displayValue: '0',
     },
   ])
 
@@ -30,20 +27,15 @@ function App() {
       ? JSON.parse(localStorage.getItem('history'))
       : []
     setHistorys(currentHistory)
+    setInitalValue(currentHistory)
   }, [])
-
-  useEffect(() => {
-    if (historys.length > 0) {
-      localStorage.setItem('history', JSON.stringify(historys))
-    }
-  }, [historys])
 
   const getData = async params => {
     try {
       const response = await fetch(`http://api.mathjs.org/v4/?expr=${params}`)
         .then(response => response.json())
         .then(data => {
-          return { data: data, status: 200 }
+          return { data: `${data}`, status: 200 }
         })
 
       return response
@@ -66,20 +58,52 @@ function App() {
       let objHistory = {
         title: arrCalculator[id].title,
         timestamp: currentDate,
-        data: {
-          value: 0,
-          displayValue,
-        },
+        value: 0,
+        displayValue,
       }
 
       if (response.status === 200) {
-        arrCalculator[id].data.value = response.data
-        objHistory.data.value = response.data
+        arrCalculator[id].value = response.data
+        objHistory.value = response.data
 
         setCalculator(arrCalculator)
         setHistorys([...currentHistory, objHistory])
+        setInitalValue([...currentHistory, objHistory])
+
+        localStorage.setItem(
+          'history',
+          JSON.stringify([...currentHistory, objHistory])
+        )
       }
     }
+  }
+
+  const filterByValue = (array, string) => {
+    return array.filter(o =>
+      Object.keys(o).some(k =>
+        o[k].toLowerCase().includes(string.toLowerCase())
+      )
+    )
+  }
+
+  const onSearch = e => {
+    const tempHistorys = [...initalValue]
+    const result = filterByValue(tempHistorys, e.target.value)
+
+    setHistorys(result)
+  }
+
+  const onFilter = e => {
+    const tempHistorys = [...initalValue]
+    let result = []
+
+    if (e.target.value !== 'all') {
+      result = filterByValue(tempHistorys, e.target.value)
+    } else {
+      result = filterByValue(tempHistorys, '')
+    }
+
+    setHistorys(result)
   }
 
   return (
@@ -90,8 +114,8 @@ function App() {
             <Calculator
               key={index}
               id={index}
-              title='Calculator A'
-              value={cal.data.value}
+              title={cal.title}
+              value={cal.value}
               onSubmit={onSubmit}
             />
           )
@@ -100,6 +124,8 @@ function App() {
           title='Results'
           historys={historys}
           setHistorys={setHistorys}
+          onSearch={onSearch}
+          onFilter={onFilter}
         />
       </Layout>
     </div>
