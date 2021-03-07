@@ -1,0 +1,38 @@
+{
+  "env": {
+    "jest": true,
+    "node": true,
+    "commonjs": true,
+    "browser": true,
+    "es2021": true
+  },
+  "extends": ["eslint:recommended", "plugin:react/recommended", "prettier"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "ecmaFeatures": {
+    "jsx": true
+  },
+  "plugins": ["react"],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "no-const-assign": "warn",
+    "no-this-before-super": "warn",
+    "no-undef": "warn",
+    "no-unreachable": "off",
+    "no-fallthrough": "error",
+    "constructor-super": "warn",
+    "no-unused-vars": "warn",
+    "valid-typeof": "warn",
+    "no-console": "warn",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react/display-name": "off",
+    "no-restricted-globals": "off"
+  }
+}
