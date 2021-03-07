@@ -77,55 +77,55 @@ const ButtonGrid = styled.div`
   }
 `
 
-const ButtonGridComponent = ({ onClick }) => {
+const ButtonGridComponent = ({ onClick, onSubmit, onReset }) => {
   return (
     <ButtonGrid>
-      <div onClick={() => onClick('Clean')} class='Clean'>
+      <div onClick={() => onReset('Clean')} className='Clean'>
         C
       </div>
-      <div onClick={() => onClick('Multiple')} class='Multiple'>
-        X
-      </div>
-      <div onClick={() => onClick('Minus')} class='Minus'>
-        -
-      </div>
-      <div onClick={() => onClick('Plus')} class='Plus'>
-        +
-      </div>
-      <div onClick={() => onClick('Sum')} class='Sum'>
+      <div onClick={() => onSubmit('Sum')} className='Sum'>
         =
       </div>
-      <div onClick={() => onClick('Seven')} class='Seven'>
+      <div onClick={() => onClick('Multiple')} className='Multiple'>
+        X
+      </div>
+      <div onClick={() => onClick('Minus')} className='Minus'>
+        -
+      </div>
+      <div onClick={() => onClick('Plus')} className='Plus'>
+        +
+      </div>
+      <div onClick={() => onClick('Seven')} className='Seven'>
         7
       </div>
-      <div onClick={() => onClick('Eight')} class='Eight'>
+      <div onClick={() => onClick('Eight')} className='Eight'>
         8
       </div>
-      <div onClick={() => onClick('Nine')} class='Nine'>
+      <div onClick={() => onClick('Nine')} className='Nine'>
         9
       </div>
-      <div onClick={() => onClick('Four')} class='Four'>
+      <div onClick={() => onClick('Four')} className='Four'>
         4
       </div>
-      <div onClick={() => onClick('Five')} class='Five'>
+      <div onClick={() => onClick('Five')} className='Five'>
         5
       </div>
-      <div onClick={() => onClick('Six')} class='Six'>
+      <div onClick={() => onClick('Six')} className='Six'>
         6
       </div>
-      <div onClick={() => onClick('One')} class='One'>
+      <div onClick={() => onClick('One')} className='One'>
         1
       </div>
-      <div onClick={() => onClick('Two')} class='Two'>
+      <div onClick={() => onClick('Two')} className='Two'>
         2
       </div>
-      <div onClick={() => onClick('Three')} class='Three'>
+      <div onClick={() => onClick('Three')} className='Three'>
         3
       </div>
-      <div onClick={() => onClick('Zero')} class='Zero'>
+      <div onClick={() => onClick('Zero')} className='Zero'>
         0
       </div>
-      <div onClick={() => onClick('Dot')} class='Dot'>
+      <div onClick={() => onClick('Dot')} className='Dot'>
         .
       </div>
     </ButtonGrid>
