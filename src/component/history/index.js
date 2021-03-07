@@ -80,17 +80,26 @@ const HistoryLayout = styled.div`
   }
 `
 
-const renderDisplay = displayValue => {
-  return displayValue.split(' ').map((str, index) => {
-    if (str === 'X' || str === '-' || str === '+') {
-      return <span key={index}> {str} </span>
-    }
-    return str
-  })
-}
-
 const History = props => {
   const { title, historys, setHistorys, onSearch, onFilter } = props
+
+  const renderDisplay = displayValue => {
+    return displayValue.split(' ').map((str, index) => {
+      if (str === 'X' || str === '-' || str === '+') {
+        return <span key={index}> {str} </span>
+      }
+      return str
+    })
+  }
+
+  const confirmClean = () => {
+    const isConfirm = confirm('Confirm clearing ?')
+    if (isConfirm) {
+      localStorage.clear()
+      setHistorys([])
+    }
+  }
+
   return (
     <Container>
       <div className='header'>
@@ -108,13 +117,7 @@ const History = props => {
         </select>
       </div>
       <CalculatorLayout>
-        <div
-          onClick={() => {
-            localStorage.clear()
-            setHistorys([])
-          }}
-          className='btn-clear'
-        >
+        <div onClick={() => confirmClean()} className='btn-clear'>
           <span>Clear</span>
         </div>
         {historys.length > 0 &&
