@@ -22,25 +22,24 @@ const CalculatorLayout = styled.div`
 const ResultLayout = styled.div`
   text-align: left;
   margin-bottom: 20px;
+  h2 {
+    font-size: 34px;
+  }
   h2,
   h3 {
     margin: 0;
+    span {
+      color: #e623cf;
+    }
   }
 `
 
-const Calculator = (props) => {
-  const { title, onSubmit } = props
+const Calculator = props => {
+  const { id, title, onSubmit, value } = props
   const [currentValue, setCurrentValue] = useState('')
   const [displayValue, setDisplayValue] = useState('')
 
-  useEffect(() => {
-    // console.log('currentValue', currentValue)
-    // console.log('displayValue', displayValue)
-  }, [currentValue, displayValue])
-
   const HandleClick = {
-    Clean: '',
-    Sum: '',
     Multiple: '*',
     Minus: '-',
     Plus: '+',
@@ -57,7 +56,7 @@ const Calculator = (props) => {
     Dot: '.',
   }
 
-  const transformsMultiply = (val) => {
+  const transformsMultiply = val => {
     if (val === HandleClick.Multiple) {
       return ' X '
     } else if (val === HandleClick.Minus) {
@@ -69,28 +68,43 @@ const Calculator = (props) => {
     }
   }
 
-  const getLastString = (val) => {
+  const getLastString = val => {
     return val.substr(val.length - 1)
   }
 
-  const onClick = (type) => {
+  const renderDisplay = () => {
+    return displayValue.split(' ').map(str => {
+      if (
+        str === 'X' ||
+        str === HandleClick.Minus ||
+        str === HandleClick.Plus
+      ) {
+        return <span> {str} </span>
+      }
+      return str
+    })
+  }
+
+  const onClickCalculator = type => {
     let tempValue = currentValue
     let tempDisplayValue = displayValue
     const value = HandleClick[type]
 
     if (
-      getLastString(tempValue) === HandleClick.Multiple && 
-      getLastString(tempValue) === HandleClick.Minus &&  
-      getLastString(tempValue) === HandleClick.Plus && 
+      getLastString(tempValue) === HandleClick.Multiple ||
+      getLastString(tempValue) === HandleClick.Minus ||
+      getLastString(tempValue) === HandleClick.Plus ||
+      getLastString(tempValue) === HandleClick.Dot
     ) {
-      return
+      if (getLastString(tempValue) === value) {
+        return
+      }
     }
 
     tempValue = tempValue + value
     tempDisplayValue = tempDisplayValue + transformsMultiply(value)
-
-    setCurrentValue(tempValue)
     setDisplayValue(tempDisplayValue)
+    setCurrentValue(tempValue)
   }
 
   return (
@@ -98,11 +112,18 @@ const Calculator = (props) => {
       <h4>{title}</h4>
       <CalculatorLayout>
         <ResultLayout>
-          <h2>1234</h2>
+          <h2>{value ? value : 0}</h2>
           <hr />
-          <h3>{displayValue ? displayValue : 0}</h3>
+          <h3>{displayValue ? renderDisplay() : 0}</h3>
         </ResultLayout>
-        <ButtonGrid onClick={onClick} />
+        <ButtonGrid
+          onClick={onClickCalculator}
+          onSubmit={() => onSubmit(currentValue, id)}
+          onReset={() => {
+            setDisplayValue('')
+            setCurrentValue('')
+          }}
+        />
       </CalculatorLayout>
     </Container>
   )
