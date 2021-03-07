@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { format } from 'date-fns'
+import { getData } from 'action'
 
 import './App.css'
 import Layout from 'component/layout'
@@ -29,21 +30,6 @@ function App() {
     setHistorys(currentHistory)
     setInitalValue(currentHistory)
   }, [])
-
-  const getData = async params => {
-    try {
-      const response = await fetch(`http://api.mathjs.org/v4/?expr=${params}`)
-        .then(response => response.json())
-        .then(data => {
-          return { data: `${data}`, status: 200 }
-        })
-
-      return response
-    } catch (err) {
-      alert(err)
-      console.log('err', err)
-    }
-  }
 
   const onSubmit = async (currentValue, displayValue, id) => {
     if (currentValue) {
