@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+input,
+select {
+  outline: none;
+}
+
 h3 {
   color: #717171;
   font-size: 24px;
