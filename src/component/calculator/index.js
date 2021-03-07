@@ -28,6 +28,7 @@ const ResultLayout = styled.div`
   h2,
   h3 {
     margin: 0;
+    overflow: hidden;
     span {
       color: #e623cf;
     }
@@ -68,18 +69,37 @@ const Calculator = props => {
     }
   }
 
+  const validationOperator = (fullText, typeValue) => {
+    if (
+      getLastString(fullText) === '' ||
+      getLastString(fullText) === HandleClick.Multiple ||
+      getLastString(fullText) === HandleClick.Minus ||
+      getLastString(fullText) === HandleClick.Plus ||
+      getLastString(fullText) === HandleClick.Dot
+    ) {
+      if (
+        typeValue === HandleClick.Multiple ||
+        typeValue === HandleClick.Minus ||
+        typeValue === HandleClick.Plus ||
+        typeValue === HandleClick.Dot
+      ) {
+        return true
+      }
+    }
+  }
+
   const getLastString = val => {
     return val.substr(val.length - 1)
   }
 
   const renderDisplay = () => {
-    return displayValue.split(' ').map(str => {
+    return displayValue.split(' ').map((str, index) => {
       if (
         str === 'X' ||
         str === HandleClick.Minus ||
         str === HandleClick.Plus
       ) {
-        return <span> {str} </span>
+        return <span key={index}> {str} </span>
       }
       return str
     })
@@ -88,37 +108,29 @@ const Calculator = props => {
   const onClickCalculator = type => {
     let tempValue = currentValue
     let tempDisplayValue = displayValue
-    const value = HandleClick[type]
+    const valueCal = HandleClick[type]
 
-    if (
-      getLastString(tempValue) === HandleClick.Multiple ||
-      getLastString(tempValue) === HandleClick.Minus ||
-      getLastString(tempValue) === HandleClick.Plus ||
-      getLastString(tempValue) === HandleClick.Dot
-    ) {
-      if (getLastString(tempValue) === value) {
-        return
-      }
-    }
+    if (validationOperator(tempValue, valueCal)) return
 
-    tempValue = tempValue + value
-    tempDisplayValue = tempDisplayValue + transformsMultiply(value)
+    tempValue = tempValue + valueCal
+    tempDisplayValue = tempDisplayValue + transformsMultiply(valueCal)
     setDisplayValue(tempDisplayValue)
     setCurrentValue(tempValue)
   }
 
   return (
     <Container>
-      <h4>{title}</h4>
+      <h3>{title}</h3>
       <CalculatorLayout>
         <ResultLayout>
           <h2>{value ? value : 0}</h2>
           <hr />
+
           <h3>{displayValue ? renderDisplay() : 0}</h3>
         </ResultLayout>
         <ButtonGrid
           onClick={onClickCalculator}
-          onSubmit={() => onSubmit(currentValue, id)}
+          onSubmit={() => onSubmit(currentValue, displayValue, id)}
           onReset={() => {
             setDisplayValue('')
             setCurrentValue('')
