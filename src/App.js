@@ -31,6 +31,21 @@ function App() {
     setInitalValue(currentHistory)
   }, [])
 
+  const getData = async params => {
+    try {
+      const response = await fetch(`http://api.mathjs.org/v4/?expr=${params}`)
+        .then(response => response.json())
+        .then(data => {
+          return { data: `${data}`, status: 200 }
+        })
+
+      return response
+    } catch (err) {
+      alert(err)
+      console.log('err', err)
+    }
+  }
+
   const onSubmit = async (currentValue, displayValue, id) => {
     if (currentValue) {
       let arrCalculator = [...calculator]

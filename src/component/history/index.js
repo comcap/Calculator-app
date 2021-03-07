@@ -3,15 +3,6 @@ import { CalculatorLayout, Container, HistoryLayout } from './history.style'
 const History = props => {
   const { title, historys, setHistorys, onSearch, onFilter } = props
 
-  const renderDisplay = displayValue => {
-    return displayValue.split(' ').map((str, index) => {
-      if (str === 'X' || str === '-' || str === '+') {
-        return <span key={index}> {str} </span>
-      }
-      return str
-    })
-  }
-
   const confirmClean = () => {
     const isConfirm = confirm('Confirm clearing ?')
     if (isConfirm) {
@@ -20,6 +11,17 @@ const History = props => {
     }
   }
 
+const renderDisplay = displayValue => {
+  return displayValue.split(' ').map((str, index) => {
+    if (str === 'X' || str === '-' || str === '+') {
+      return <span key={index}> {str} </span>
+    }
+    return str
+  })
+}
+
+const History = props => {
+  const { title, historys, setHistorys, onSearch, onFilter } = props
   return (
     <Container>
       <div className='header'>
