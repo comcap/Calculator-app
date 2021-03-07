@@ -3,17 +3,6 @@ import { CalculatorLayout, Container, HistoryLayout } from './history.style'
 const History = props => {
   const { title, historys, setHistorys, onSearch, onFilter } = props
 
-  const confirmClean = () => {
-    const isConfirm = confirm('Confirm clearing ?')
-    if (isConfirm) {
-      localStorage.clear()
-      setHistorys([])
-    }
-  }
-
-const History = props => {
-  const { title, historys, setHistorys, onSearch, onFilter } = props
-
   const renderDisplay = displayValue => {
     return displayValue.split(' ').map((str, index) => {
       if (str === 'X' || str === '-' || str === '+') {
